@@ -12,8 +12,6 @@ import android.graphics.Color;
 import android.hardware.SensorManager;
 
 public class MainMenu extends AppCompatActivity {
-    static double THRL;
-    static double THRH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +20,7 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         SensorManager hrm = (SensorManager)getSystemService(SENSOR_SERVICE);
         System.out.println(hrm.getDefaultSensor(65562)); //maybe working need to test on actual device
-
+        //test git please ignore
     }
 
     @Override
