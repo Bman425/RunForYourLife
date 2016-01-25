@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="first"
+        android:title="Dark Mode"
+        android:summary="This change requires a restart" />
+    <CheckBoxPreference
+        android:key="second"
+        android:title="Second Option"
+        android:summary="This is the second option." />
+    <CheckBoxPreference
+        android:key="third"
+        android:title="Third Option"
+        android:summary="This is the third option." />
+    <CheckBoxPreference
+        android:key="fourth"
+        android:title="Fourth Option"
+        android:summary="This is the fourth option." />
+    <CheckBoxPreference
+        android:key="fifth"
+        android:title="Fifth Option"
+        android:summary="This is the fifth option." />
+
+</PreferenceScreen>
