@@ -24,8 +24,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="brianrossi.runforyourlife.MainMenu" />
         </activity>
-
-        <activity android:name=".Preferences"/>
+        <activity android:name=".Preferences" />
+        <activity
+            android:screenOrientation="landscape"
+            android:name=".game"
+            android:label="@string/title_activity_game"
+            android:parentActivityName=".MainMenu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="brianrossi.runforyourlife.MainMenu" />
+        </activity>
     </application>
 
 </manifest>
