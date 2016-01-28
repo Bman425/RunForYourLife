@@ -6,7 +6,22 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="brianrossi.runforyourlife.Calibrate">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/txtHR"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Heartrate"
+        android:id="@+id/btnHR"
+        android:layout_marginTop="104dp"
+        android:layout_below="@+id/txtHR"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClickHR" />
 </RelativeLayout>
