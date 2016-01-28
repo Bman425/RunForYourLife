@@ -1,20 +1,30 @@
 package brianrossi.runforyourlife;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
-//import com.samsung.android.sdk.health.service;
 
-public class Calibrate extends AppCompatActivity {
+public class Calibrate extends AppCompatActivity implements SensorEventListener {
 
+    SensorManager hrmManager ;
+    Sensor hrmSensor;
+    private static final String TAG = "MainActivity";
+    private TextView mTextViewHeart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hrmManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        hrmSensor = hrmManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
         setContentView(R.layout.activity_calibrate);
+        hrmManager.registerListener((SensorEventListener) this, hrmSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //mTextViewHeart = (TextView) findViewById(R.id.heart);
     }
 
     @Override
@@ -39,12 +49,19 @@ public class Calibrate extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickHR( View v){
-        TextView t = (TextView) findViewById(R.id.txtHR);
-        SensorManager hrm = (SensorManager)getSystemService(SENSOR_SERVICE);
-        hrm.getDefaultSensor(65562);
-        t.setText(hrm.toString());
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_HEART_RATE) {
+            String msg = "" + (int)event.values[0];
+            mTextViewHeart.setText(msg);
+            Log.d(TAG, msg);
+            System.out.println(msg);
+        }
+        else
+            Log.d(TAG, "Unknown sensor type");
     }
 
-
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        Log.d(TAG, "onAccuracyChanged - accuracy: " + accuracy);
+    }
 }
