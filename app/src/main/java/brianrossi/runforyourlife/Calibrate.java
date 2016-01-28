@@ -1,7 +1,5 @@
 package brianrossi.runforyourlife;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,13 +13,15 @@ import android.widget.TextView;
 
 public class Calibrate extends AppCompatActivity implements SensorEventListener {
 
-    SensorManager hrmManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-    Sensor hrmSensor = hrmManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+    SensorManager hrmManager ;
+    Sensor hrmSensor;
     private static final String TAG = "MainActivity";
     private TextView mTextViewHeart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hrmManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        hrmSensor = hrmManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
         setContentView(R.layout.activity_calibrate);
         hrmManager.registerListener((SensorEventListener) this, hrmSensor, SensorManager.SENSOR_DELAY_NORMAL);
         //mTextViewHeart = (TextView) findViewById(R.id.heart);
