@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.SensorManager;
+import android.widget.TextView;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -18,9 +19,6 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.makeTheme();
         setContentView(R.layout.activity_main_menu);
-        SensorManager hrm = (SensorManager)getSystemService(SENSOR_SERVICE);
-        System.out.println(hrm.getDefaultSensor(65562)); //maybe working need to test on actual device
-        //test git please ignore
     }
 
     @Override
@@ -63,7 +61,7 @@ public class MainMenu extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundColor(Color.LTGRAY);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean first = settings.getBoolean("first", false); //key for preference followed by default value for preference
-        if (first == true) {
+        if (first) {
             setTheme(android.R.style.Theme_Material);
             getWindow().getDecorView().setBackgroundColor(Color.DKGRAY);
         }

@@ -1,9 +1,13 @@
 package brianrossi.runforyourlife;
 
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+//import com.samsung.android.sdk.health.service;
 
 public class Calibrate extends AppCompatActivity {
 
@@ -34,4 +38,13 @@ public class Calibrate extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void onClickHR( View v){
+        TextView t = (TextView) findViewById(R.id.txtHR);
+        SensorManager hrm = (SensorManager)getSystemService(SENSOR_SERVICE);
+        hrm.getDefaultSensor(65562);
+        t.setText(hrm.toString());
+    }
+
+
 }
