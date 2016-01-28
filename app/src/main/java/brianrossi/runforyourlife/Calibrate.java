@@ -1,16 +1,30 @@
 package brianrossi.runforyourlife;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-public class Calibrate extends AppCompatActivity {
+public class Calibrate extends AppCompatActivity implements SensorEventListener {
 
+    SensorManager hrmManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+    Sensor hrmSensor = hrmManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+    private static final String TAG = "MainActivity";
+    private TextView mTextViewHeart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calibrate);
+        hrmManager.registerListener((SensorEventListener) this, hrmSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //mTextViewHeart = (TextView) findViewById(R.id.heart);
     }
 
     @Override
@@ -33,5 +47,21 @@ public class Calibrate extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_HEART_RATE) {
+            String msg = "" + (int)event.values[0];
+            mTextViewHeart.setText(msg);
+            Log.d(TAG, msg);
+            System.out.println(msg);
+        }
+        else
+            Log.d(TAG, "Unknown sensor type");
+    }
+
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        Log.d(TAG, "onAccuracyChanged - accuracy: " + accuracy);
     }
 }
