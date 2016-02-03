@@ -12,14 +12,12 @@ import android.graphics.Color;
 import android.hardware.SensorManager;
 
 public class MainMenu extends AppCompatActivity {
-
+    public static final String APP_TAG = "Run for your life";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.makeTheme();
         setContentView(R.layout.activity_main_menu);
-        SensorManager hrm = (SensorManager)getSystemService(SENSOR_SERVICE);
-        System.out.println(hrm.getDefaultSensor(65562)); //maybe working need to test on actual device
         //test git please ignore
     }
 
