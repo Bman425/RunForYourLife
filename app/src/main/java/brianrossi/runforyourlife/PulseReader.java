@@ -26,9 +26,12 @@ public class PulseReader {
         listenerActivity = listener;
     }
     public void start(){
+        Log.d(MainMenu.APP_TAG, "Starting Pulse Reader");
         HealthDataObserver.addObserver(HealthStore, HealthConstants.HeartRate.HEALTH_DATA_TYPE, Observer);
+        readHeartRate();
     }
     private void readHeartRate() {
+        Log.d(MainMenu.APP_TAG, "Reading heart rate");
         HealthDataResolver resolver = new HealthDataResolver(HealthStore, null);
 
         long startTime = getStartTimeOfToday();
@@ -39,7 +42,7 @@ public class PulseReader {
         HealthDataResolver.ReadRequest request = new ReadRequest.Builder()
                 .setDataType(HealthConstants.HeartRate.HEALTH_DATA_TYPE)
                 .setProperties(new String[] {HealthConstants.HeartRate.HEART_RATE})
-                .setFilter(filter)
+                //.setFilter(filter)
                 .build();
 
         try {

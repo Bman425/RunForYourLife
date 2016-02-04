@@ -171,6 +171,7 @@ public class Calibrate extends AppCompatActivity implements PulseReaderListener 
                 Log.e(MainMenu.APP_TAG, e.getClass().getName() + " - " + e.getMessage());
                 Log.e(MainMenu.APP_TAG, "Permission setting fails.");
             }
+
         }
 
         @Override
