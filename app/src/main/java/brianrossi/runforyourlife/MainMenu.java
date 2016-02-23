@@ -1,5 +1,8 @@
 package brianrossi.runforyourlife;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,13 +16,22 @@ import android.hardware.SensorManager;
 
 public class MainMenu extends AppCompatActivity {
     public static final String APP_TAG = "Run for your life";
+    private SensorManager mSensorManager;
+    private Sensor mHRMSensor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.makeTheme();
         setContentView(R.layout.activity_main_menu);
+
+
+
+
+
         //test git please ignore
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
