@@ -1,5 +1,8 @@
 package brianrossi.runforyourlife;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,16 +13,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.SensorManager;
-import android.widget.TextView;
 
 public class MainMenu extends AppCompatActivity {
-
+    public static final String APP_TAG = "Run for your life";
+    private SensorManager mSensorManager;
+    private Sensor mHRMSensor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.makeTheme();
         setContentView(R.layout.activity_main_menu);
+
+
+
+
+
+        //test git please ignore
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -53,8 +65,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void btnOnClickPlay(View v){
-        Intent game = new Intent(this, game.class);
-        startActivity(game);
+        //bring to game screen
     }
 
     public void makeTheme() {
@@ -62,7 +73,7 @@ public class MainMenu extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundColor(Color.LTGRAY);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean first = settings.getBoolean("first", false); //key for preference followed by default value for preference
-        if (first) {
+        if (first == true) {
             setTheme(android.R.style.Theme_Material);
             getWindow().getDecorView().setBackgroundColor(Color.DKGRAY);
         }
