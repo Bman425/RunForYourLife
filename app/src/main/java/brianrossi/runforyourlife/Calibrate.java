@@ -23,28 +23,35 @@ public class Calibrate extends AppCompatActivity implements PulseListener  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPulse = new PulseManager(this);
+        mPulse = new PulseManager(this, this);
         setContentView(R.layout.activity_calibrate);
         textBPM = (TextView) findViewById(R.id.BPM);
         textBPMwarn = (TextView)findViewById(R.id.BPMwarn);
-
+        mPulse.start();
     }
 
 
     @Override
     public void recievePulse(double BPM, int validity) {
-        System.out.println("Heart Rate ---> " + BPM);
         if (validity == 0){
             textBPM.setText("???");
             textBPMwarn.setText("Not reading anything");
         }
         else if (validity == 2){
-            textBPM.setText(BPM + " BPM");
+            textBPM.setText(((int)BPM) + " BPM");
             textBPMwarn.setText("Place finger on sensor better");
         }
         else if (validity == 3){
-            textBPM.setText(BPM + " BPM");
+            textBPM.setText(((int)BPM) + " BPM");
             textBPMwarn.setText("");
         }
+    }
+    public void onPause(){
+        super.onPause();
+        mPulse.stop();
+    }
+    public void onResume(){
+        super.onResume();
+        mPulse.start();
     }
 }
