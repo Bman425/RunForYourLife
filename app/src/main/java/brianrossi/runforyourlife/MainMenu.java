@@ -23,12 +23,6 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.makeTheme();
         setContentView(R.layout.activity_main_menu);
-
-
-
-
-
-        //test git please ignore
     }
 
 
