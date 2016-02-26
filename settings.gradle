@@ -1,1 +1,1 @@
-include ':app', ':calibrate'
+include ':app'

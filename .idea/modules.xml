@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RunForYourLife.iml" filepath="$PROJECT_DIR$/RunForYourLife.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/calibrate/calibrate.iml" filepath="$PROJECT_DIR$/calibrate/calibrate.iml" />
     </modules>
   </component>
 </project>
