@@ -55,8 +55,6 @@ public class PulseManager implements SensorEventListener {
             }
         }
         mReciever.recievePulse(heartrate, validity);
-        System.out.println(lastRead);
-        System.out.println(System.currentTimeMillis());
     }
 
     @Override

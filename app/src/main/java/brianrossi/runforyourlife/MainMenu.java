@@ -59,7 +59,8 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void btnOnClickPlay(View v){
-        //bring to game screen
+        Intent play = new Intent(this, game.class);
+        startActivity(play);
     }
 
     public void makeTheme() {

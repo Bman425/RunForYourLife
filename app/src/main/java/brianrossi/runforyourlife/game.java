@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 public class game extends Activity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,5 +46,13 @@ public class game extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void onPause(){
+        super.onPause();
+        //.stop();  fill in this for the HRMRecCalc
+    }
+    public void onResume(){
+        super.onResume();
+        //.start();  fill in this for the HRMRecCalc
     }
 }
