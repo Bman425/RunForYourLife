@@ -9,7 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
-public class game extends Activity {
+public class Game extends Activity {
 
 
     @Override

@@ -59,7 +59,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void btnOnClickPlay(View v){
-        Intent play = new Intent(this, game.class);
+        Intent play = new Intent(this, Game.class);
         startActivity(play);
     }
 
