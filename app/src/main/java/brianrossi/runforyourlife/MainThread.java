@@ -3,7 +3,7 @@ package brianrossi.runforyourlife;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-public class GameThread extends Thread
+public class MainThread extends Thread
 {
     private int FPS = 30;
     private double averageFPS;
@@ -12,7 +12,7 @@ public class GameThread extends Thread
     private boolean running;
     public static Canvas canvas;
 
-    public GameThread(SurfaceHolder surfaceHolder, GamePanel gamePanel)
+    public MainThread(SurfaceHolder surfaceHolder, GamePanel gamePanel)
     {
         super();
         this.surfaceHolder = surfaceHolder;
