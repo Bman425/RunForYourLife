@@ -1,5 +1,6 @@
 package brianrossi.runforyourlife;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -21,12 +22,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public static final int HEIGHT = 480;
     public static final int MOVESPEED = -5;
     private long smokeStartTime;
-    private long missileStartTime;
     private MainThread thread;
     private Background bg;
     private Player player;
     private ArrayList<SmokePuff> smoke;
-    private ArrayList<Missile> missiles;
     private ArrayList<TopBorder> topborder;
     private ArrayList<BotBorder> botborder;
     private Random rand = new Random();
@@ -35,6 +34,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private boolean topDown = true;
     private boolean botDown = true;
     private boolean newGameCreated;
+    private HRMRecCalc mHRM;
+    private Context mContext;
+    private Activity mActivity;
+    private long lastRead = 0;
 
     //increase to slow down difficulty progression, decrease to speed up difficulty progression
     private int progressDenom = 20;
@@ -48,7 +51,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 
 
 
-    public GamePanel(Context context)
+    public GamePanel(Context context, Activity activity)
     {
         super(context);
 
@@ -60,6 +63,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 
         //make gamePanel focusable so it can handle events
         setFocusable(true);
+        mContext = context;
+        mActivity = activity;
     }
 
     @Override
@@ -89,11 +94,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1));
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 65, 25, 3);
         smoke = new ArrayList<SmokePuff>();
-        missiles = new ArrayList<Missile>();
+
         topborder = new ArrayList<TopBorder>();
         botborder = new ArrayList<BotBorder>();
         smokeStartTime=  System.nanoTime();
-        missileStartTime = System.nanoTime();
+
 
         thread = new MainThread(getHolder(), this);
         //we can safely start the game loop
@@ -108,20 +113,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             if(!player.getPlaying() && newGameCreated && reset)
             {
                 player.setPlaying(true);
-                player.setUp(true);
+
             }
             if(player.getPlaying())
             {
 
                 if(!started)started = true;
                 reset = false;
-                player.setUp(true);
+
             }
             return true;
         }
         if(event.getAction()==MotionEvent.ACTION_UP)
         {
-            player.setUp(false);
+
             return true;
         }
 
@@ -131,6 +136,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public void update()
 
     {
+
         if(player.getPlaying()) {
 
             if(botborder.isEmpty())
@@ -143,7 +149,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                 player.setPlaying(false);
                 return;
             }
-
+            if(System.currentTimeMillis() - lastRead > 3000){
+                mHRM.recordTrial();
+                lastRead = System.currentTimeMillis();
+            }
+            player.setY((int)(HEIGHT - (mHRM.percentInRange() * HEIGHT)));
             bg.update();
             player.update();
 
@@ -176,46 +186,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             //udpate bottom border
             this.updateBottomBorder();
 
-            //add missiles on timer
-            long missileElapsed = (System.nanoTime()-missileStartTime)/1000000;
-            if(missileElapsed >(2000 - player.getScore()/4)){
 
-
-                //first missile always goes down the middle
-                if(missiles.size()==0)
-                {
-                    missiles.add(new Missile(BitmapFactory.decodeResource(getResources(),R.drawable.
-                            missile),WIDTH + 10, HEIGHT/2, 45, 15, player.getScore(), 13));
-                }
-                else
-                {
-
-                    missiles.add(new Missile(BitmapFactory.decodeResource(getResources(),R.drawable.missile),
-                            WIDTH+10, (int)(rand.nextDouble()*(HEIGHT - (maxBorderHeight * 2))+maxBorderHeight),45,15, player.getScore(),13));
-                }
-
-                //reset timer
-                missileStartTime = System.nanoTime();
-            }
-            //loop through every missile and check collision and remove
-            for(int i = 0; i<missiles.size();i++)
-            {
-                //update missile
-                missiles.get(i).update();
-
-                if(collision(missiles.get(i),player))
-                {
-                    missiles.remove(i);
-                    player.setPlaying(false);
-                    break;
-                }
-                //remove missile if it is way off the screen
-                if(missiles.get(i).getX()<-100)
-                {
-                    missiles.remove(i);
-                    break;
-                }
-            }
 
             //add smoke puffs on timer
             long elapsed = (System.nanoTime() - smokeStartTime)/1000000;
@@ -283,11 +254,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             {
                 sp.draw(canvas);
             }
-            //draw missiles
-            for(Missile m: missiles)
-            {
-                m.draw(canvas);
-            }
+
+
 
 
             //draw topborder
@@ -400,11 +368,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public void newGame()
     {
         dissapear = false;
+        mHRM = new HRMRecCalc(mContext, mActivity);
 
         botborder.clear();
         topborder.clear();
 
-        missiles.clear();
+
         smoke.clear();
 
         minBorderHeight = 5;
@@ -453,7 +422,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                         i * 20, botborder.get(i - 1).getY() - 1));
             }
         }
-
+        mHRM.start();
         newGameCreated = true;
 
 
@@ -479,6 +448,5 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             canvas.drawText("RELEASE TO GO DOWN", WIDTH/2-50, HEIGHT/2 + 40, paint1);
         }
     }
-
 
 }

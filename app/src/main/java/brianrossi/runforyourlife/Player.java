@@ -36,8 +36,6 @@ public class Player extends GameObject{
 
     }
 
-    public void setUp(boolean b){up = b;}
-
     public void update()
     {
         long elapsed = (System.nanoTime()-startTime)/1000000;
@@ -48,13 +46,6 @@ public class Player extends GameObject{
         }
         animation.update();
 
-        if(up){
-            dy -=1;
-
-        }
-        else{
-            dy +=1;
-        }
 
         if(dy>14)dy = 14;
         if(dy<-14)dy = -14;
@@ -70,6 +61,7 @@ public class Player extends GameObject{
     public int getScore(){return score;}
     public boolean getPlaying(){return playing;}
     public void setPlaying(boolean b){playing = b;}
+    public void setDY(int deltay) { dy = deltay;}
     public void resetDY(){dy = 0;}
     public void resetScore(){score = 0;}
 }

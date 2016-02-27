@@ -11,7 +11,6 @@ import android.view.WindowManager;
 
 public class Game extends Activity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,9 +21,9 @@ public class Game extends Activity {
         //set to full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(new GamePanel(this));
+        setContentView(new GamePanel(this, this));
     }
-
+//hi ben the bug
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -47,12 +46,5 @@ public class Game extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void onPause(){
-        super.onPause();
-        //.stop();  fill in this for the HRMRecCalc
-    }
-    public void onResume(){
-        super.onResume();
-        //.start();  fill in this for the HRMRecCalc
-    }
+
 }

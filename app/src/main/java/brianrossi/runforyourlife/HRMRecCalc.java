@@ -42,6 +42,7 @@ public class HRMRecCalc implements PulseListener {
         maxHR = g.getMaxXHR();  //Get the max hr from the globals class                                                     |
         restHR = g.getRestHR(); //Get the resting hr from the globals class                                                 |
         record = new ArrayList<>(Collections.nCopies(15, (double)restHR)); //Fill the record with resting Hr                |
+        currentTrial = new ArrayList<Double>();
         calcRanges();  //Calculates heart rate ranges
     }
     private void calcRanges(){  //Calculates heart rate ranges
@@ -70,7 +71,7 @@ public class HRMRecCalc implements PulseListener {
     @Override
     public void recievePulse(double BPM, int validity) {  //Is run every time the Heart rate manager talks
         if (validity == 3) {  //Using 3 means only actual readings are used, not guesses or duds
-            currentTrial.add(BPM);  //Records it
+            currentTrial.add(Double.valueOf(BPM));  //Records it
         }
     }
 
@@ -90,8 +91,8 @@ public class HRMRecCalc implements PulseListener {
             return -1.0;
         }
     }
-    public double percentInRange(){ //Looks at the last 10 data points and outputs a percent, 0 being resting hr, 100 being max, Use for alitiude of character?
-        return 100 * ((viewRecord() - restHR) / hRReserve);
+    public double percentInRange(){ //Looks at the last 10 data points and outputs a percent, 0 being resting hr, 1 being max, Use for alitiude of character?
+        return ((viewRecord() - (restHR - 30)) / hRReserve);
     }
     private void recordUpdate(double next){  //moves over each data points in the record adding the newest one to the begining
         for(int i = record.size()-1; i > 0; i--)

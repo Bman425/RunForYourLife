@@ -30,6 +30,7 @@ public class MainThread extends Thread
 
         while(running) {
             startTime = System.nanoTime();
+
             canvas = null;
 
             //try locking the canvas for pixel editing
@@ -70,6 +71,7 @@ public class MainThread extends Thread
                 totalTime = 0;
                 System.out.println(averageFPS);
             }
+
         }
     }
     public void setRunning(boolean b)
