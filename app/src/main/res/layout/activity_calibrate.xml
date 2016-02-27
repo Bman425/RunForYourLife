@@ -10,18 +10,133 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/BPM"
+        android:id="@+id/tvBPM"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="79dp" />
+        android:layout_marginBottom="79dp"
+        android:enabled="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/BPMwarn"
+        android:id="@+id/tvBPMwarn"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Press your finger on the sensor" />
+        android:text="Press your finger on the sensor"
+        android:enabled="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Your Resting Heart Rate(BPM):"
+        android:id="@+id/tvRestingRate"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:editable="false"
+        android:enabled="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/tfRestingRate"
+        android:layout_below="@+id/tvRestingRate"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Your Maximum Heart Rate(BPM):"
+        android:id="@+id/tvMaxRate"
+        android:enabled="true"
+        android:layout_below="@+id/tvRestingRateinfo"
+        android:layout_alignRight="@+id/tvMaxRateinfo"
+        android:layout_alignEnd="@+id/tvMaxRateinfo" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/tfMaxRate"
+        android:layout_below="@+id/tvMaxRate"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your maximum heart rate should NOT be exceeded."
+        android:id="@+id/tvMaxRateinfo"
+        android:layout_below="@+id/tfMaxRate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:enabled="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Calculate Max Heart Rate"
+        android:id="@+id/tvCalculateMax"
+        android:layout_below="@+id/tvMaxRateinfo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:enabled="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/tfAge"
+        android:layout_below="@+id/tvCalculateMax"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Age (years):"
+        android:id="@+id/tvAge"
+        android:layout_below="@+id/tvCalculateMax"
+        android:layout_toLeftOf="@+id/tfAge"
+        android:layout_toStartOf="@+id/tfAge" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate Max Heart Rate"
+        android:id="@+id/btnCalculate"
+        android:layout_below="@+id/tfAge"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="btnOnClickCalc" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/btnSave"
+        android:layout_above="@+id/tvBPM"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="btnOnClickSave" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your resting heart rate is best taken when you wake up."
+        android:id="@+id/tvRestingRateinfo"
+        android:layout_below="@+id/tfRestingRate"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

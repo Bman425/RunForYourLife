@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -20,13 +22,23 @@ public class Calibrate extends AppCompatActivity implements PulseListener  {
     PulseManager mPulse;
     TextView textBPM;
     TextView textBPMwarn;
+    EditText restHR;
+    EditText maxHR;
+    EditText age;
+    Globals g;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPulse = new PulseManager(this, this);
         setContentView(R.layout.activity_calibrate);
-        textBPM = (TextView) findViewById(R.id.BPM);
-        textBPMwarn = (TextView)findViewById(R.id.BPMwarn);
+        textBPM = (TextView) findViewById(R.id.tvBPM);
+        textBPMwarn = (TextView)findViewById(R.id.tvBPMwarn);
+        restHR = (EditText)findViewById(R.id.tfRestingRate);
+        maxHR = (EditText)findViewById(R.id.tfMaxRate);
+        age = (EditText)findViewById(R.id.tfAge);
+        g = (Globals)getApplication();
+        restHR.setText(Integer.toString(g.getRestHR()));
+        maxHR.setText(Integer.toString(g.getMaxXHR()));
         mPulse.start();
     }
 
@@ -54,4 +66,12 @@ public class Calibrate extends AppCompatActivity implements PulseListener  {
         super.onResume();
         mPulse.start();
     }
+    public void btnOnClickSave(View v){
+        g.setMaxHR(Integer.valueOf(maxHR.getText().toString()));
+        g.setRestHR(Integer.valueOf(restHR.getText().toString()));
+    }
+    public void btnOnClickCalc(View v){
+        maxHR.setText(Integer.toString(220 - Integer.valueOf(age.getText().toString())));
+    }
+
 }
