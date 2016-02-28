@@ -11,6 +11,8 @@ import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -38,6 +40,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private Context mContext;
     private Activity mActivity;
     private long lastRead = 0;
+    private boolean hrActive = false;
 
     //increase to slow down difficulty progression, decrease to speed up difficulty progression
     private int progressDenom = 20;
@@ -161,10 +164,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             //max and min border heart are updated, and the border switched direction when either max or
             //min is met
 
-            maxBorderHeight = 30+player.getScore()/progressDenom;
-            //cap max border height so that borders can only take up a total of 1/2 the screen
-            if(maxBorderHeight > HEIGHT/4)maxBorderHeight = HEIGHT/4;
-            minBorderHeight = 5+player.getScore()/progressDenom;
+
 
             //check bottom border collision
             for(int i = 0; i<botborder.size(); i++)
@@ -430,17 +430,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public void drawText(Canvas canvas)
     {
         Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
+        Paint paint2 = new Paint();
+        paint2.setColor(Color.WHITE);
+        paint.setColor(Color.BLUE);
+        Paint paint3 = new Paint();
+        paint3.setColor(Color.RED);
+        paint3.setTextSize(30);
+        paint3.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         paint.setTextSize(30);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        canvas.drawText("DISTANCE: " + (player.getScore()*3), 10, HEIGHT - 10, paint);
-        canvas.drawText("BEST: " + best, WIDTH - 215, HEIGHT - 10, paint);
+        canvas.drawRect(9, HEIGHT - 9, 830, HEIGHT - 33, paint2);
+        canvas.drawText("DISTANCE: " + (player.getScore() * 3), 10, HEIGHT - 10, paint);
+        canvas.drawText("BPM: " + (int)mHRM.getLastTrial(), WIDTH - 215, HEIGHT - 10, paint3);
 
         if(!player.getPlaying()&&newGameCreated&&reset)
         {
             Paint paint1 = new Paint();
+            paint1.setColor(Color.BLUE);
             paint1.setTextSize(40);
             paint1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            canvas.drawRect(WIDTH/2 - 60, HEIGHT/2 - 30, WIDTH/2 + 300, HEIGHT/2 + 50, paint2);
             canvas.drawText("PRESS TO START", WIDTH/2-50, HEIGHT/2, paint1);
 
             paint1.setTextSize(20);

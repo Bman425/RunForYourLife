@@ -26,6 +26,7 @@ public class HRMRecCalc implements PulseListener {
     private int restHR;  //Resting heart rate
     private int hRReserve;  //Differnce between the two above
     private Globals g;  //The instance of the globals class
+    private double lastTrial = 0;
 
     public HeartRateWindow Anaerobic; //This is a heart rate window, specifically anaerobic exercise
     public HeartRateWindow Limits;  //The complete range, min to max
@@ -64,6 +65,7 @@ public class HRMRecCalc implements PulseListener {
                 sum += d;
             }
             recordUpdate(sum / n);  //Averages the trial
+            lastTrial = sum/n;
         }
         currentTrial = new ArrayList<Double>();  //Redeclares the trial resetting content and size
     }
@@ -100,6 +102,9 @@ public class HRMRecCalc implements PulseListener {
             record.set(i, record.get(i - 1));
         }
         record.set(0,next);
+    }
+    public double getLastTrial(){
+        return lastTrial;
     }
     public void start(){ //Call this when unpausing or when ready to begin recording
         mPulseMan.start();
