@@ -1,5 +1,7 @@
 package brianrossi.runforyourlife;
 
+import java.nio.channels.UnsupportedAddressTypeException;
+
 /**
  * Created by Family on 2/26/2016.
  */
@@ -7,15 +9,26 @@ package brianrossi.runforyourlife;
 //I know this class seems too simple, but I figured it would be bad to be doing
 // a whole bunch of comparisons the RecCalc
 public class HeartRateWindow {
-    private int maxHR;
-    private int minHR;
-    HeartRateWindow(int min, int max){
+    private int maxHR; //Maximum Heart Rate for this range
+    private int minHR; //Minumum Heart Rate for this range
+    private int reserveHR;  //Difference between resting heart rate and max trainging heart rate (not maxHR)
+    private int restHR;  //Resting Heart rate
+    HeartRateWindow(int min, int max, int hRResrve, int hRRest){
+        reserveHR = hRResrve;
         maxHR = max;
         minHR = min;
+        restHR = hRRest;
     }
-    public int check(double HR){  //Put in the hr your checking
-        if (HR > maxHR){return 1;}  //1 if it is over
-        else if (HR < minHR){return -1;}  //-1 if it is under
-        else {return 0;} //0 if is good      Boolean doesnt do under/over/good, just bad/good so I went with this
+    public int getMax(){
+        return maxHR;
+    }
+    public int getMin(){
+        return minHR;
+    }
+    public double getPercentMax(){
+        return (maxHR - (restHR + 10)) / (reserveHR + .1);
+    }
+    public double getPercentMin(){
+        return (minHR - (restHR - 10)) / (reserveHR + .1);
     }
 }

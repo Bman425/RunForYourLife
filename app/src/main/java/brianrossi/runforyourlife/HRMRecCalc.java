@@ -30,27 +30,30 @@ public class HRMRecCalc implements PulseListener {
 
     public HeartRateWindow Anaerobic; //This is a heart rate window, specifically anaerobic exercise
     public HeartRateWindow Limits;  //The complete range, min to max
+    public HeartRateWindow Moderate;
+    public HeartRateWindow Low;
     //Add more here!
 
     //NOTE: heart rate windows are public, this means you call their .check(double hr) method e.g. mHRMRecCalc.Anaerobic.check(mHRMRecCalc.viewrecord)
 
 
-    HRMRecCalc(Context context, Activity activity){  //SUPER DUPER IMPORTANT! MUST CALL .start() WHEN READY FOR ACTUAL DATA COLLECTION!!!!  <---
-        mContext = context;                         //                                                                      |
-        mActivity = activity;                       //                                                                     /|\
-        mPulseMan = new PulseManager(this, mContext);  //Makes the pulse manager                                          /_|_\
-        g = (Globals)mActivity.getApplication();  //Make the globals class                                                  |
-        maxHR = g.getMaxXHR();  //Get the max hr from the globals class                                                     |
-        restHR = g.getRestHR(); //Get the resting hr from the globals class                                                 |
-        record = new ArrayList<>(Collections.nCopies(15, (double)restHR)); //Fill the record with resting Hr                |
+    HRMRecCalc(Context context, Activity activity){
+        mContext = context;
+        mActivity = activity;
+        mPulseMan = new PulseManager(this, mContext);  //Makes the pulse manager
+        g = (Globals)mActivity.getApplication();  //Make the globals class
+        maxHR = g.getMaxXHR();  //Get the max hr from the globals class
+        restHR = g.getRestHR(); //Get the resting hr from the globals class
+        record = new ArrayList<>(Collections.nCopies(15, (double)restHR)); //Fill the record with resting Hr
         currentTrial = new ArrayList<Double>();
         calcRanges();  //Calculates heart rate ranges
     }
     private void calcRanges(){  //Calculates heart rate ranges
         hRReserve = maxHR - restHR;  //Defines reserver hr
-        Anaerobic = new HeartRateWindow((int)(restHR + 0.9 * (hRReserve)), maxHR);  //calculates anaerobic range, 90% to max
-        Limits = new HeartRateWindow(restHR, maxHR);  //establishes the limits
-
+        Anaerobic = new HeartRateWindow((int)(restHR + (0.60 * hRReserve)), maxHR, hRReserve, restHR);  //calculates anaerobic range, 90% to max
+        Limits = new HeartRateWindow(restHR, maxHR, hRReserve, restHR);  //establishes the limits
+        Moderate = new HeartRateWindow(restHR + ((int)(0.3 * hRReserve)), maxHR - ((int)( .3 * hRReserve)), hRReserve, restHR);
+        Low = new HeartRateWindow(restHR, maxHR - ((int)(.5 * hRReserve)), hRReserve, restHR);
     }
     public void recordTrial(){ //Run this to record all the latest heart rates as a data point, do it often and regularly, every few seconds
         if (currentTrial.size() == 0){  //If the trial is empty, mark it as -1, code for fail
@@ -105,6 +108,9 @@ public class HRMRecCalc implements PulseListener {
     }
     public double getLastTrial(){
         return lastTrial;
+    }
+    public HeartRateWindow getModerate(){
+        return Moderate;
     }
     public void start(){ //Call this when unpausing or when ready to begin recording
         mPulseMan.start();

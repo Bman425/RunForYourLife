@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Run For Your LIfe"
+        android:text="Fly or Die"
         android:id="@+id/textViewTitle"
         android:layout_centerHorizontal="true" />
 
