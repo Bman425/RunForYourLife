@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.PowerManager;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -43,11 +44,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private boolean hrActive = false;
     private HeartRateWindow window;
     private long lastAdvance;
-    private HeartRateWindow[] path = {mHRM.Limits, mHRM.Limits, mHRM.Moderate, mHRM.Moderate, mHRM.Anaerobic,mHRM.Moderate,
-            mHRM.Limits,mHRM.Low};
+    private HeartRateWindow[] path;
     //increase to slow down difficulty progression, decrease to speed up difficulty progression
     private int progressDenom = 20;
-
+    private int level = 0;
+    private int countdown;
     private Explosion explosion;
     private long startReset;
     private boolean reset;
@@ -158,13 +159,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             if(System.currentTimeMillis() - lastRead > 3000){
                 mHRM.recordTrial();
                 lastRead = System.currentTimeMillis();
+
             }
             player.setY((int) (HEIGHT - (mHRM.percentInRange() * HEIGHT)));
             bg.update();
             player.update();
-
+            countdown = (int)(60+ ((lastAdvance - System.currentTimeMillis())/1000));
             if(System.currentTimeMillis() - lastAdvance> 60000){
                 lastAdvance = System.currentTimeMillis();
+                if (level < path.length){
+                    level++;
+                    window = path[level];
+                }
             }
 
 
@@ -182,7 +188,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
                     player.setPlaying(false);
             }
 
-            System.out.println("---->" + (HEIGHT - (window.getPercentMax() * HEIGHT)));
             botBorderHeight = (int)(HEIGHT - (window.getPercentMin() * HEIGHT));
             topBorderHeight = (int)(HEIGHT - (window.getPercentMax() * HEIGHT));
             //update top border
@@ -192,11 +197,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             this.updateBottomBorder();
 
             //add smoke puffs on timer
-            long elapsed = (System.nanoTime() - smokeStartTime)/1000000;
-            if(elapsed > 120){
-                smoke.add(new SmokePuff(player.getX(), player.getY()+10));
-                smokeStartTime = System.nanoTime();
-            }
 
             for(int i = 0; i<smoke.size();i++)
             {
@@ -361,7 +361,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         lastAdvance = System.currentTimeMillis();
         botborder.clear();
         topborder.clear();
-
+        path = new HeartRateWindow[]{mHRM.Limits, mHRM.Limits, mHRM.Moderate, mHRM.Moderate,
+                mHRM.Anaerobic,mHRM.Moderate, mHRM.Limits,mHRM.Low};
 
         smoke.clear();
 
@@ -430,8 +431,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         paint.setTextSize(30);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         canvas.drawRect(9, HEIGHT - 9, 830, HEIGHT - 33, paint2);
-        canvas.drawText("DISTANCE: " + (player.getScore() * 3), 10, HEIGHT - 10, paint);
-        canvas.drawText("BPM: " + (int)mHRM.getLastTrial(), WIDTH - 215, HEIGHT - 10, paint3);
+        canvas.drawText("NEXT: Between " + (int)path[level+1].getMin() + " BPM  and " + (int)path[
+            level+1].getMax() + " BPM" + " in " + countdown + " S", 10, HEIGHT - 10, paint);
+        canvas.drawText("BPM: " + (int)mHRM.getLastTrial(), WIDTH - 160, HEIGHT - 10, paint3);
 
         if(!player.getPlaying()&&newGameCreated&&reset)
         {

@@ -2,7 +2,9 @@ package brianrossi.runforyourlife;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -10,7 +12,7 @@ import android.view.WindowManager;
 
 
 public class Game extends Activity {
-
+    protected PowerManager.WakeLock mWakeLock;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,10 +22,12 @@ public class Game extends Activity {
 
         //set to full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "Fly Or Die");
+        this.mWakeLock.acquire();
         setContentView(new GamePanel(this, this));
     }
-//hi ben the bug
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,5 +50,9 @@ public class Game extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onDestroy() {
+        this.mWakeLock.release();
+        super.onDestroy();
+    }
 }
